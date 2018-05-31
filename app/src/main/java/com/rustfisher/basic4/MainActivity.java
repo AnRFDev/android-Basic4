@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.rustfisher.basic4.activity.Hts.SAct1;
+import com.rustfisher.basic4.activity.ViewLifecycleAct;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initUI() {
         findViewById(R.id.how_to_stop_service_btn).setOnClickListener(this);
+        findViewById(R.id.view_lifecycle_btn).setOnClickListener(this);
     }
 
     @Override
@@ -25,6 +27,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.how_to_stop_service_btn:
                 startActivity(new Intent(this, SAct1.class));
+                break;
+            case R.id.view_lifecycle_btn:
+                startActivity(new Intent(this, ViewLifecycleAct.class));
                 break;
         }
     }

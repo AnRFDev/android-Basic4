@@ -20,6 +20,7 @@
         <activity android:name=".activity.Hts.SAct1" />
         <activity android:name=".activity.Hts.SAct2" />
         <activity android:name=".activity.Hts.SAct3" />
+        <activity android:name=".activity.ViewLifecycleAct" />
 
         <service android:name=".service.HowToStopService" />
     </application>
