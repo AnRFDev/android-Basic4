@@ -21,6 +21,15 @@ public class HowToStopService extends Service {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, LOG_PRE + "onCreate");
+        Thread sThread =
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d(TAG, "[Thread in Service] run");
+                    }
+                });
+        Log.d(TAG, LOG_PRE + "[Thread in Service] " + sThread.toString());
+        sThread.start();
     }
 
     @Override
