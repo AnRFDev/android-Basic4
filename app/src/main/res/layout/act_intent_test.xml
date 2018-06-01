@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/value_tv"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
+        <SeekBar
+            android:id="@+id/value_sb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:max="1000" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/size_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/res_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/s1_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="send 1" />
+
+    <Button
+        android:id="@+id/s2_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="send 2" />
+
+    <Button
+        android:id="@+id/s3_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="send 3" />
+
+    <Button
+        android:id="@+id/s4_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="send 4" />
+
+    <Button
+        android:id="@+id/s5_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="send 5" />
+
+    <Button
+        android:id="@+id/s6_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="send 6" />
+
+    <Button
+        android:id="@+id/s7_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="send 7" />
+
+</LinearLayout>
