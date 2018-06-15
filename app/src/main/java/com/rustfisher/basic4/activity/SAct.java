@@ -33,6 +33,12 @@ public abstract class SAct extends AppCompatActivity {
     }
 
     @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        Log.d(TAG, mLogPre + "onWindowFocusChanged");
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         Log.d(TAG, mLogPre + "onPause");
