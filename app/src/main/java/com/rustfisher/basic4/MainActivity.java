@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.rustfisher.basic4.activity.HandlerDemoActivity;
 import com.rustfisher.basic4.activity.Hts.SAct1;
 import com.rustfisher.basic4.activity.IntentTestAct;
 import com.rustfisher.basic4.activity.ViewLifecycleAct;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.how_to_stop_service_btn).setOnClickListener(this);
         findViewById(R.id.view_lifecycle_btn).setOnClickListener(this);
         findViewById(R.id.intent_size_test_btn).setOnClickListener(this);
+        findViewById(R.id.handler_test_btn).setOnClickListener(this);
     }
 
     @Override
@@ -35,6 +37,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.intent_size_test_btn:
                 startActivity(new Intent(this, IntentTestAct.class));
+                break;
+            case R.id.handler_test_btn:
+                startActivity(new Intent(this, HandlerDemoActivity.class));
                 break;
         }
     }

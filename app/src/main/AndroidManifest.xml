@@ -22,6 +22,7 @@
         <activity android:name=".activity.Hts.SAct3" />
         <activity android:name=".activity.ViewLifecycleAct" />
         <activity android:name=".activity.IntentTestAct" />
+        <activity android:name=".activity.HandlerDemoActivity" />
 
         <service android:name=".service.HowToStopService" />
     </application>

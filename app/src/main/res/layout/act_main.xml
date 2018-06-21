@@ -24,4 +24,10 @@
         android:layout_height="wrap_content"
         android:text="Intent size test" />
 
+    <Button
+        android:id="@+id/handler_test_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="测试Handler" />
+
 </LinearLayout>
