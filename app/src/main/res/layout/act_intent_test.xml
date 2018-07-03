@@ -83,4 +83,10 @@
         android:layout_height="wrap_content"
         android:text="send 7" />
 
+    <Button
+        android:id="@+id/send_arr_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="send arr" />
+
 </LinearLayout>

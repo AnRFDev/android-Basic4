@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.rustfisher.appndkground.R;
 import com.rustfisher.appndkground.jni.ContextUtils;
+import com.rustfisher.appndkground.jni.DynamicJNI;
 
 /**
  * Show some functions
@@ -23,6 +24,8 @@ import com.rustfisher.appndkground.jni.ContextUtils;
  */
 public class FunctionListFragment extends Fragment {
     private static final String TAG = "rustAppFuncList";
+    private TextView mJni1Tv;
+    private TextView mJni2Tv;
 
     @Nullable
     @Override
@@ -38,6 +41,8 @@ public class FunctionListFragment extends Fragment {
 
     private void initUI(View root) {
         Context context = getContext();
+        mJni1Tv = root.findViewById(R.id.d_jni_1_tv);
+        mJni2Tv = root.findViewById(R.id.d_jni_2_tv);
         TextView pkgTv = root.findViewById(R.id.pkg_name_tv);
         TextView appSignTv = root.findViewById(R.id.app_sign_tv);
         TextView appPkgNameInListTv = root.findViewById(R.id.pkg_name_in_list);
@@ -60,5 +65,20 @@ public class FunctionListFragment extends Fragment {
 
         appPkgNameInListTv.setText(String.format("Package name in the list: %b",
                 ContextUtils.nPkgNameInList(context)));
+
+        mJni1Tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mJni1Tv.setText(DynamicJNI.getHello());
+                Log.d(TAG, "调用动态注册的jni方法");
+            }
+        });
+        mJni2Tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mJni2Tv.setText(String.valueOf(DynamicJNI.meaningOfTheUniverse()));
+                Log.d(TAG, "调用动态注册的jni方法2");
+            }
+        });
     }
 }

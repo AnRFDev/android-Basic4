@@ -25,7 +25,9 @@ import com.rustfisher.basic4.R;
 public class IntentTestAct extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "rustApp";
     private static final String MSG_INTENT = "intent_bi";
+    private static final String MSG_ARR = "intent_arr";
     private static final String K_PIC = "key_pic";
+    private static final String K_ARR = "key_arr";
 
     private TextView mSizeTv;
     private TextView mResTv;
@@ -55,6 +57,7 @@ public class IntentTestAct extends AppCompatActivity implements View.OnClickList
         findViewById(R.id.s5_btn).setOnClickListener(this);
         findViewById(R.id.s6_btn).setOnClickListener(this);
         findViewById(R.id.s7_btn).setOnClickListener(this);
+        findViewById(R.id.send_arr_btn).setOnClickListener(this);
         SeekBar seekBar = findViewById(R.id.value_sb);
         final TextView valueTv = findViewById(R.id.value_tv);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -76,7 +79,9 @@ public class IntentTestAct extends AppCompatActivity implements View.OnClickList
         });
         mBmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
         Log.d(TAG, "initView: mBmp.getByteCount==" + mBmp.getByteCount());
-        registerReceiver(mReceiver, new IntentFilter(MSG_INTENT));
+        IntentFilter intentFilter = new IntentFilter(MSG_INTENT);
+        intentFilter.addAction(MSG_ARR);
+        registerReceiver(mReceiver, intentFilter);
     }
 
     @Override
@@ -102,6 +107,13 @@ public class IntentTestAct extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.s7_btn:
                 sendBroadcast(createIntent(mBmp, 1024, 1024));
+                break;
+            case R.id.send_arr_btn:
+                Intent aIntent = new Intent(MSG_ARR);
+                int[] arr = {1, 2, 3, 4, 5, 6, 7};
+                Log.d(TAG, "发送数组  " + arr);
+                aIntent.putExtra(K_ARR, arr);
+                sendBroadcast(aIntent);
                 break;
         }
     }
@@ -129,6 +141,9 @@ public class IntentTestAct extends AppCompatActivity implements View.OnClickList
                     mResTv.setText(resInfo);
                     Log.d(TAG, resInfo);
                 }
+            } else if (MSG_ARR.equals(action)) {
+                int[] arr = intent.getIntArrayExtra(K_ARR);
+                Log.d(TAG, "接到数组 " + arr);
             }
         }
     };
