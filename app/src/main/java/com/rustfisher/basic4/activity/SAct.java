@@ -27,6 +27,12 @@ public abstract class SAct extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, mLogPre + "onStart");
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         Log.d(TAG, mLogPre + "onResume");
@@ -42,6 +48,12 @@ public abstract class SAct extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Log.d(TAG, mLogPre + "onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, mLogPre + "onStop");
     }
 
     @Override
