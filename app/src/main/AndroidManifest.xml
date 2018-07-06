@@ -23,6 +23,7 @@
         <activity android:name=".activity.ViewLifecycleAct" />
         <activity android:name=".activity.IntentTestAct" />
         <activity android:name=".activity.HandlerDemoActivity" />
+        <activity android:name=".activity.AnnotationDemoActivity" />
 
         <service android:name=".service.HowToStopService" />
     </application>
