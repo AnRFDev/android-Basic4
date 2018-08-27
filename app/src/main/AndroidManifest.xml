@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rustfisher.basic4">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -24,6 +29,7 @@
         <activity android:name=".activity.IntentTestAct" />
         <activity android:name=".activity.HandlerDemoActivity" />
         <activity android:name=".activity.AnnotationDemoActivity" />
+        <activity android:name=".activity.ForceNetworkActivity" />
 
         <service android:name=".service.HowToStopService" />
     </application>
