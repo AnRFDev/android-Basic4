@@ -7,6 +7,25 @@
     <com.rustfisher.basic4.view.LifeView
         android:id="@+id/life_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="100dp" />
+
+    <Button
+        android:id="@+id/call_refresh_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Call invalidate" />
+
+    <Button
+        android:id="@+id/color_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set color" />
+
+    <Button
+        android:id="@+id/time_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1m" />
+
 
 </LinearLayout>

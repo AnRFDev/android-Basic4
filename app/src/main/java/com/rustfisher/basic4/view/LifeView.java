@@ -27,6 +27,10 @@ public class LifeView extends View {
         Log.d(TAG, LOG_PRE + "LifeView(Context context, @Nullable AttributeSet attrs)");
     }
 
+    public void setPaintColor(int color) {
+        mPaint.setColor(color);
+    }
+
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
@@ -48,7 +52,7 @@ public class LifeView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        Log.d(TAG, LOG_PRE + "onSizeChanged");
+        Log.d(TAG, LOG_PRE + "onSizeChanged " + "; size: " + w + ", " + h);
     }
 
 
@@ -62,7 +66,7 @@ public class LifeView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawText("Lifecycle", 0, 0, mPaint);
-        Log.d(TAG, LOG_PRE + "onDraw");
+        Log.d(TAG, LOG_PRE + "onDraw, " + System.currentTimeMillis());
     }
 
     @Override
