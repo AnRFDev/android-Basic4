@@ -7,6 +7,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+    <!-- 搜索WiFi获取SSID需要的权限 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -30,6 +36,7 @@
         <activity android:name=".activity.HandlerDemoActivity" />
         <activity android:name=".activity.AnnotationDemoActivity" />
         <activity android:name=".activity.ForceNetworkActivity" />
+        <activity android:name=".wifiscan.WiFiScanActivity" />
 
         <service android:name=".service.HowToStopService" />
     </application>

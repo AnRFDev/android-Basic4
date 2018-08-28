@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:id="@+id/top_back_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="WiFi List" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/prefix_setting_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/top_layout"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WiFi前缀:"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/wifi_prefix_et"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:gravity="start|center_vertical"
+            android:hint="请输入WiFi前缀"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/refresh_wifi_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:gravity="center"
+            android:minWidth="80dp"
+            android:text="刷新" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/choose_all_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="全选" />
+
+        <Button
+            android:id="@+id/choose_none_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="全不选" />
+
+        <Button
+            android:id="@+id/choose_revert_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="反选" />
+
+        <TextView
+            android:id="@+id/chosen_info_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已选:0项"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/chosen_firmware_info_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/wifi_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom_layout"
+        android:layout_below="@id/prefix_setting_layout" />
+
+</RelativeLayout>

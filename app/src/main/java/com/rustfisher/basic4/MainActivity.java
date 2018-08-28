@@ -11,6 +11,7 @@ import com.rustfisher.basic4.activity.HandlerDemoActivity;
 import com.rustfisher.basic4.activity.Hts.SAct1;
 import com.rustfisher.basic4.activity.IntentTestAct;
 import com.rustfisher.basic4.activity.ViewLifecycleAct;
+import com.rustfisher.basic4.wifiscan.WiFiScanActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.handler_test_btn).setOnClickListener(this);
         findViewById(R.id.annotation_btn).setOnClickListener(this);
         findViewById(R.id.force_network_btn).setOnClickListener(this);
+        findViewById(R.id.wifi_scan_btn).setOnClickListener(this);
     }
 
     @Override
@@ -50,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.force_network_btn:
                 startActivity(new Intent(this, ForceNetworkActivity.class));
+                break;
+            case R.id.wifi_scan_btn:
+                startActivity(new Intent(this, WiFiScanActivity.class));
                 break;
         }
     }
