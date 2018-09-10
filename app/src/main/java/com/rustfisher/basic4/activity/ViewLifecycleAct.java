@@ -8,9 +8,12 @@ import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.rustfisher.basic4.R;
 import com.rustfisher.basic4.view.LifeView;
+
+import java.util.Locale;
 
 /**
  * For view's lifecycle
@@ -65,6 +68,49 @@ public class ViewLifecycleAct extends AppCompatActivity {
                 Log.d(TAG, "[act] 延时 invalidate");
             }
         });
+
+        final Button setXBtn = findViewById(R.id.set_x_btn);
+        setXBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                printViewXY(v);
+            }
+        });
+        findViewById(R.id.move_left_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setXBtn.setX(setXBtn.getX() - 10);
+                printViewXY(setXBtn);
+            }
+        });
+        findViewById(R.id.move_right_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setXBtn.setX(setXBtn.getX() + 10);
+                printViewXY(setXBtn);
+            }
+        });
+        findViewById(R.id.tx_minus_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setXBtn.setTranslationX(setXBtn.getTranslationX() - 10);
+                printViewXY(setXBtn);
+            }
+        });
+        findViewById(R.id.tx_plus_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setXBtn.setTranslationX(setXBtn.getTranslationX() + 10);
+                printViewXY(setXBtn);
+            }
+        });
+        findViewById(R.id.tx_0_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setXBtn.setTranslationX(0);
+                printViewXY(setXBtn);
+            }
+        });
     }
 
     @Override
@@ -103,5 +149,10 @@ public class ViewLifecycleAct extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.e(TAG, "Activity生命周期:onDestroy");
+    }
+
+    private void printViewXY(View view) {
+        Log.d(TAG, String.format(Locale.CHINA, "getX, Y = [%.4f, %.4f]; TranslationX,Y = [%.4f, %.4f]; ", view.getX(), view.getY(),
+                view.getTranslationX(), view.getTranslationY()));
     }
 }

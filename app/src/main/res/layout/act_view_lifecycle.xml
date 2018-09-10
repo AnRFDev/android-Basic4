@@ -28,4 +28,59 @@
         android:text="1m" />
 
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/set_x_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="set x btn" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/set_x_btn"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/move_right_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="setX+" />
+
+            <Button
+                android:id="@+id/move_left_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="setX-" />
+
+            <Button
+                android:id="@+id/tx_plus_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TX+" />
+
+            <Button
+                android:id="@+id/tx_minus_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TX-" />
+
+            <Button
+                android:id="@+id/tx_0_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TX -> 0" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
 </LinearLayout>

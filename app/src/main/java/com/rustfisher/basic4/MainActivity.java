@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.rustfisher.basic4.activity.AnnotationDemoActivity;
+import com.rustfisher.basic4.activity.ThroughDemoActivity;
 import com.rustfisher.basic4.activity.ForceNetworkActivity;
 import com.rustfisher.basic4.activity.HandlerDemoActivity;
 import com.rustfisher.basic4.activity.Hts.SAct1;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.annotation_btn).setOnClickListener(this);
         findViewById(R.id.force_network_btn).setOnClickListener(this);
         findViewById(R.id.wifi_scan_btn).setOnClickListener(this);
+        findViewById(R.id.click_through_btn).setOnClickListener(this);
     }
 
     @Override
@@ -55,6 +57,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.wifi_scan_btn:
                 startActivity(new Intent(this, WiFiScanActivity.class));
+                break;
+            case R.id.click_through_btn:
+                startActivity(new Intent(this, ThroughDemoActivity.class));
                 break;
         }
     }
