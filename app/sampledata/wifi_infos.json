@@ -1,0 +1,15 @@
+{
+	"scan_results": [{
+			"ssid": "WiFi-1",
+			"note": "This the 1st wifi"
+		},
+		{
+			"ssid": "WiFi-2",
+			"note": "This is 2nd wifi"
+		},
+		{
+        	"ssid": "How to connect",
+        	"note": "Q"
+        }
+	]
+}
