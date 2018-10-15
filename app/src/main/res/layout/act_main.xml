@@ -62,4 +62,11 @@
         android:layout_height="wrap_content"
         android:text="点击穿透" />
 
+    <Button
+        android:id="@+id/screenshot_btn"
+        style="@style/ButtonStyleMainPage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="截图" />
+
 </LinearLayout>

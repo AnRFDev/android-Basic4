@@ -38,6 +38,7 @@
         <activity android:name=".activity.ForceNetworkActivity" />
         <activity android:name=".wifiscan.WiFiScanActivity" />
         <activity android:name=".activity.ThroughDemoActivity" />
+        <activity android:name=".activity.ScreenshotActivity" />
 
         <service android:name=".service.HowToStopService" />
     </application>

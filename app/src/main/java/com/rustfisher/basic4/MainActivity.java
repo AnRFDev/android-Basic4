@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.rustfisher.basic4.activity.AnnotationDemoActivity;
+import com.rustfisher.basic4.activity.ScreenshotActivity;
 import com.rustfisher.basic4.activity.ThroughDemoActivity;
 import com.rustfisher.basic4.activity.ForceNetworkActivity;
 import com.rustfisher.basic4.activity.HandlerDemoActivity;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.force_network_btn).setOnClickListener(this);
         findViewById(R.id.wifi_scan_btn).setOnClickListener(this);
         findViewById(R.id.click_through_btn).setOnClickListener(this);
+        findViewById(R.id.screenshot_btn).setOnClickListener(this);
     }
 
     @Override
@@ -60,6 +62,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.click_through_btn:
                 startActivity(new Intent(this, ThroughDemoActivity.class));
+                break;
+            case R.id.screenshot_btn:
+                startActivity(new Intent(this, ScreenshotActivity.class));
                 break;
         }
     }
