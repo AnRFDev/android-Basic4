@@ -14,6 +14,7 @@ import com.rustfisher.basic4.activity.Hts.SAct1;
 import com.rustfisher.basic4.activity.IntentTestAct;
 import com.rustfisher.basic4.activity.ViewLifecycleAct;
 import com.rustfisher.basic4.wifiscan.WiFiScanActivity;
+import com.rustfisher.the3part.NetUtil;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.wifi_scan_btn).setOnClickListener(this);
         findViewById(R.id.click_through_btn).setOnClickListener(this);
         findViewById(R.id.screenshot_btn).setOnClickListener(this);
+
     }
 
     @Override
