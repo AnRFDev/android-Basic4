@@ -1,1 +1,1 @@
-include ':app', ':appNdkGround', ':the3part'
+include ':app', ':appNdkGround', ':the3part', ':databindingdemo'
