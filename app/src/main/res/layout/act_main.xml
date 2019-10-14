@@ -76,4 +76,11 @@
         android:layout_height="wrap_content"
         android:text="枚举类测试" />
 
+    <Button
+        android:id="@+id/go_ping_act"
+        style="@style/ButtonStyleMainPage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ping测试" />
+
 </LinearLayout>

@@ -1,12 +1,15 @@
 package com.rustfisher.basic4;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 
 import com.rustfisher.basic4.activity.AnnotationDemoActivity;
 import com.rustfisher.basic4.activity.EnumActivity;
+import com.rustfisher.basic4.activity.PingAct;
 import com.rustfisher.basic4.activity.ScreenshotActivity;
 import com.rustfisher.basic4.activity.ThroughDemoActivity;
 import com.rustfisher.basic4.activity.ForceNetworkActivity;
@@ -15,7 +18,6 @@ import com.rustfisher.basic4.activity.Hts.SAct1;
 import com.rustfisher.basic4.activity.IntentTestAct;
 import com.rustfisher.basic4.activity.ViewLifecycleAct;
 import com.rustfisher.basic4.wifiscan.WiFiScanActivity;
-import com.rustfisher.the3part.NetUtil;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -27,17 +29,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initUI() {
-        findViewById(R.id.how_to_stop_service_btn).setOnClickListener(this);
-        findViewById(R.id.view_lifecycle_btn).setOnClickListener(this);
-        findViewById(R.id.intent_size_test_btn).setOnClickListener(this);
-        findViewById(R.id.handler_test_btn).setOnClickListener(this);
-        findViewById(R.id.annotation_btn).setOnClickListener(this);
-        findViewById(R.id.force_network_btn).setOnClickListener(this);
-        findViewById(R.id.wifi_scan_btn).setOnClickListener(this);
-        findViewById(R.id.click_through_btn).setOnClickListener(this);
-        findViewById(R.id.screenshot_btn).setOnClickListener(this);
-        findViewById(R.id.go_enum_btn).setOnClickListener(this);
-
+        setUpOnClickListener(this,
+                R.id.how_to_stop_service_btn,
+                R.id.view_lifecycle_btn,
+                R.id.intent_size_test_btn,
+                R.id.handler_test_btn,
+                R.id.annotation_btn,
+                R.id.force_network_btn,
+                R.id.wifi_scan_btn,
+                R.id.click_through_btn,
+                R.id.screenshot_btn,
+                R.id.go_enum_btn,
+                R.id.go_ping_act
+        );
     }
 
     @Override
@@ -73,6 +77,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.go_enum_btn:
                 startActivity(new Intent(this, EnumActivity.class));
                 break;
+            case R.id.go_ping_act:
+                startActivity(new Intent(this, PingAct.class));
+                break;
+        }
+    }
+
+    private void setUpOnClickListener(View.OnClickListener listener, int... resID) {
+        for (int id : resID) {
+            findViewById(id).setOnClickListener(listener);
         }
     }
 }

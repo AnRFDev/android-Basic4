@@ -36,6 +36,7 @@
         <activity android:name=".wifiscan.WiFiScanActivity" />
         <activity android:name=".activity.ThroughDemoActivity" />
         <activity android:name=".activity.ScreenshotActivity" />
+        <activity android:name=".activity.PingAct" />
 
         <service android:name=".service.HowToStopService" />
     </application>
