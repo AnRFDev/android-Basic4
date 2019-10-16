@@ -57,7 +57,7 @@ public class DownloadCenter {
             }
         }
         if (task == null) {
-            task = new Task(downUrl, callBack.getTargetFile());
+            task = new Task(downUrl, callBack.getTargetFile() , callBack.getTmpFile());
             taskList.add(task);
         } else if (task.downloading()) {
             Log.d(TAG, "downloading: " + task);

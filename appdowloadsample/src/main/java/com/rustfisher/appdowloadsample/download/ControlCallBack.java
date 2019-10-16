@@ -3,6 +3,7 @@ package com.rustfisher.appdowloadsample.download;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -19,12 +20,14 @@ public abstract class ControlCallBack {
     private static final String TAG = "rustAppProgressCb";
     public static int defDownloadBytePerMs = 100; // 每毫秒下载的字节数
     private File targetFile;
+    private File tmpFile;
     public boolean isCancel;
     private String url;
 
     public ControlCallBack(String url, File targetFile) {
         this.url = url;
         this.targetFile = targetFile;
+        this.tmpFile = new File(targetFile.getAbsolutePath() + ".tmp");
     }
 
     public abstract void onSuccess();
@@ -49,7 +52,7 @@ public abstract class ControlCallBack {
         try {
             Log.d(TAG, "saveFile: body content length: " + body.contentLength());
             is = body.byteStream();
-            File dir = targetFile.getParentFile();
+            File dir = tmpFile.getParentFile();
             if (dir == null) {
                 throw new FileNotFoundException("target file has no dir.");
             }
@@ -57,7 +60,7 @@ public abstract class ControlCallBack {
                 boolean m = dir.mkdirs();
                 onInfo("Create dir " + m + ", " + dir);
             }
-            File file = targetFile;
+            File file = tmpFile;
             if (!file.exists()) {
                 boolean c = file.createNewFile();
                 onInfo("Create new file " + c);
@@ -85,7 +88,12 @@ public abstract class ControlCallBack {
             if (isCancel) {
                 onCancel(url);
             } else {
-                onSuccess();
+                boolean rename = tmpFile.renameTo(targetFile);
+                if (rename) {
+                    onSuccess();
+                } else {
+                    onError(new Exception("Rename file fail. " + tmpFile));
+                }
             }
         } catch (FileNotFoundException e) {
             Log.e(TAG, "saveFile: FileNotFoundException ", e);
@@ -113,5 +121,9 @@ public abstract class ControlCallBack {
 
     public File getTargetFile() {
         return targetFile;
+    }
+
+    public File getTmpFile() {
+        return tmpFile;
     }
 }

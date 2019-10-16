@@ -13,18 +13,20 @@ public class Task {
     private String name; // todo 暂时没用
     private int code;
     private File targetFile;
+    private File tmpFile;
 
     private DownloadTaskState state;
 
-    public Task(String url, File targetFile) {
-        this(url, url, autoCode++, targetFile);
+    public Task(String url, File targetFile, File tmpFile) {
+        this(url, url, autoCode++, targetFile, tmpFile);
     }
 
-    public Task(String url, String name, int code, File targetFile) {
+    public Task(String url, String name, int code, File targetFile, File tmpFile) {
         this.url = url;
         this.name = name;
         this.code = code;
         this.targetFile = targetFile;
+        this.tmpFile = tmpFile;
         state = DownloadTaskState.CREATED;
     }
 
@@ -58,6 +60,10 @@ public class Task {
 
     public void setState(DownloadTaskState state) {
         this.state = state;
+    }
+
+    public File getTmpFile() {
+        return tmpFile;
     }
 
     @Override
