@@ -54,7 +54,12 @@ public class DownloadingFrag extends Fragment {
             @Override
             public void onDelClick(final ControlCallBack callBack) {
                 Log.d(TAG, "onDelClick: " + callBack);
-                callBack.cancel();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        callBack.cancel(); // 关闭也是要时间的
+                    }
+                }).start();
             }
         });
     }

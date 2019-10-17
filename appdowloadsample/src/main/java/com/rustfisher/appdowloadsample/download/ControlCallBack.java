@@ -26,6 +26,7 @@ public abstract class ControlCallBack {
     private int downloadBytesPerMs;
     private long progressTotal;
     private long progressCurrent = -1;
+    InputStream srcInputStream;
 
     public ControlCallBack(String url, File targetFile) {
         this(url, targetFile, defDownloadBytePerMs);
@@ -56,13 +57,12 @@ public abstract class ControlCallBack {
 
     public void saveFile(ResponseBody body) {
         state = DownloadTaskState.DOWNLOADING;
-        InputStream is = null;
         byte[] buf = new byte[2048];
         int len;
         FileOutputStream fos = null;
         try {
             Log.d(TAG, "saveFile: body content length: " + body.contentLength());
-            is = body.byteStream();
+            srcInputStream = body.byteStream();
             File dir = tmpFile.getParentFile();
             if (dir == null) {
                 throw new FileNotFoundException("target file has no dir.");
@@ -78,7 +78,7 @@ public abstract class ControlCallBack {
             }
             fos = new FileOutputStream(file);
             long time = System.currentTimeMillis();
-            while ((len = is.read(buf)) != -1 && !isCancel) {
+            while ((len = srcInputStream.read(buf)) != -1 && !isCancel) {
                 fos.write(buf, 0, len);
                 int duration = (int) (System.currentTimeMillis() - time);
 
@@ -92,13 +92,12 @@ public abstract class ControlCallBack {
                 }
                 time = System.currentTimeMillis();
                 if (isCancel) {
-                    is.close();
+                    state = DownloadTaskState.CLOSING;
+                    srcInputStream.close();
                     break;
                 }
             }
-            if (isCancel) {
-                onCancel(url);
-            } else {
+            if (!isCancel) {
                 fos.flush();
                 boolean rename = tmpFile.renameTo(targetFile);
                 if (rename) {
@@ -119,8 +118,8 @@ public abstract class ControlCallBack {
             onError(url, e);
         } finally {
             try {
-                if (is != null) {
-                    is.close();
+                if (srcInputStream != null) {
+                    srcInputStream.close();
                 }
                 if (fos != null) {
                     fos.close();
@@ -128,12 +127,20 @@ public abstract class ControlCallBack {
             } catch (IOException e) {
                 Log.e(TAG, "saveFile", e);
             }
+            if (isCancel) {
+                onCancel(url);
+            }
         }
     }
 
     public void cancel() {
+        state = DownloadTaskState.CLOSING;
         isCancel = true;
-//        onCancel(url);
+        try {
+            srcInputStream.close();
+        } catch (Exception e) {
+            Log.e(TAG, "cancel download: ", e);
+        }
     }
 
     public File getTargetFile() {

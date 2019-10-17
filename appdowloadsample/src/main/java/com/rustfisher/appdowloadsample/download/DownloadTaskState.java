@@ -9,5 +9,6 @@ public enum DownloadTaskState {
     DOWNLOADING,
     PAUSED, /* todo 还没实现暂停功能 */
     DONE,
-    ERROR
+    ERROR,
+    CLOSING
 }
