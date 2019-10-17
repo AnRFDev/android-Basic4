@@ -3,11 +3,14 @@ package com.rustfisher.appdowloadsample.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,7 +22,6 @@ import com.rustfisher.appdowloadsample.R;
 import com.rustfisher.appdowloadsample.download.ControlCallBack;
 import com.rustfisher.appdowloadsample.download.DownloadCenter;
 import com.rustfisher.appdowloadsample.download.DownloadCenterListener;
-import com.rustfisher.appdowloadsample.download.DownloadTaskState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,7 @@ import java.util.List;
  * Created on 2019-10-17
  */
 public class DownloadingFrag extends Fragment {
+    private static final String TAG = "rustAppDownloadFrag";
 
     private TaskAdapter taskAdapter;
     private Handler mHandler = new Handler(Looper.getMainLooper());
@@ -47,6 +50,13 @@ public class DownloadingFrag extends Fragment {
         recyclerView.setAdapter(taskAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
         DownloadCenter.getInstance().addListener(mDownloadCenterListener);
+        taskAdapter.setOnItemClick(new OnItemClick() {
+            @Override
+            public void onDelClick(final ControlCallBack callBack) {
+                Log.d(TAG, "onDelClick: " + callBack);
+                callBack.cancel();
+            }
+        });
     }
 
     @Override
@@ -68,8 +78,8 @@ public class DownloadingFrag extends Fragment {
         }
 
         @Override
-        public void onSuccess(DownloadTaskState state, final String url) {
-            super.onSuccess(state, url);
+        public void onSuccess(final String url) {
+            super.onSuccess(url);
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -79,8 +89,8 @@ public class DownloadingFrag extends Fragment {
         }
 
         @Override
-        public void onError(DownloadTaskState state, final String url, Throwable e) {
-            super.onError(state, url, e);
+        public void onError(final String url, Throwable e) {
+            super.onError(url, e);
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -106,6 +116,7 @@ public class DownloadingFrag extends Fragment {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
+                    Toast.makeText(getContext(), "取消任务", Toast.LENGTH_SHORT).show();
                     taskAdapter.updateDeleted(url);
                 }
             });
@@ -116,6 +127,7 @@ public class DownloadingFrag extends Fragment {
         public View root;
         public TextView urlTv;
         public TextView filenameTv;
+        ImageView delIv;
         ProgressBar pb;
 
         public VH(@NonNull View itemView) {
@@ -124,11 +136,13 @@ public class DownloadingFrag extends Fragment {
             filenameTv = itemView.findViewById(R.id.filename_tv);
             urlTv = itemView.findViewById(R.id.url_tv);
             pb = itemView.findViewById(R.id.pb);
+            delIv = itemView.findViewById(R.id.del_iv);
         }
     }
 
     class TaskAdapter extends RecyclerView.Adapter<VH> {
         private List<ControlCallBack> callBackList;
+        private OnItemClick onItemClick;
 
         public TaskAdapter() {
             callBackList = new ArrayList<>();
@@ -142,7 +156,7 @@ public class DownloadingFrag extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull VH holder, int position) {
-            ControlCallBack callBack = callBackList.get(position);
+            final ControlCallBack callBack = callBackList.get(position);
             holder.urlTv.setText(callBack.getUrl());
             holder.filenameTv.setText(callBack.getTargetFile().getName());
             holder.pb.setVisibility(callBack.isDownloading() ? View.VISIBLE : View.INVISIBLE);
@@ -153,11 +167,24 @@ public class DownloadingFrag extends Fragment {
             } else {
                 holder.pb.setVisibility(View.INVISIBLE);
             }
+            holder.delIv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "TaskAdapter click del iv");
+                    if (onItemClick != null) {
+                        onItemClick.onDelClick(callBack);
+                    }
+                }
+            });
         }
 
         @Override
         public int getItemCount() {
             return callBackList.size();
+        }
+
+        public void setOnItemClick(OnItemClick onItemClick) {
+            this.onItemClick = onItemClick;
         }
 
         public void addTask(ControlCallBack callBack) {
@@ -172,17 +199,26 @@ public class DownloadingFrag extends Fragment {
 
         public void updateError(String url) {
             ControlCallBack callBack = getTaskByUrl(url);
-
+            if (callBack != null) {
+                if (callBack.isCancel) {
+                    callBackList.remove(callBack);
+                } else {
+                    Log.d(TAG, "updateError: " + url);
+                }
+            }
             notifyDataSetChanged();
         }
 
         public void updateProgress(String url, long bytesRead, long contentLength, boolean done) {
-            ControlCallBack callBack = getTaskByUrl(url);
-            if (callBack != null) {
-                callBack.setProgressCurrent(bytesRead);
-                callBack.setProgressTotal(contentLength);
+            int index = getTaskIndexByUrl(url);
+            if (index >= 0) {
+                ControlCallBack callBack = callBackList.get(index);
+                if (callBack != null) {
+                    callBack.setProgressCurrent(bytesRead);
+                    callBack.setProgressTotal(contentLength);
+                }
+                notifyItemChanged(index);
             }
-            notifyDataSetChanged();
         }
 
         public void updateDeleted(String url) {
@@ -199,6 +235,20 @@ public class DownloadingFrag extends Fragment {
             }
             return null;
         }
+
+        private int getTaskIndexByUrl(String url) {
+            for (int i = 0; i < callBackList.size(); i++) {
+                ControlCallBack c = callBackList.get(i);
+                if (c.getUrl().equals(url)) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+    }
+
+    public interface OnItemClick {
+        void onDelClick(ControlCallBack callBack);
     }
 
 }

@@ -1,9 +1,5 @@
 package com.rustfisher.appdowloadsample;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -11,9 +7,11 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import com.rustfisher.appdowloadsample.download.DownloadCenter;
-import com.rustfisher.appdowloadsample.download.DownloadCenterListener;
-import com.rustfisher.appdowloadsample.download.DownloadTaskState;
 import com.rustfisher.appdowloadsample.fragment.DownloadingFrag;
 
 import java.io.File;

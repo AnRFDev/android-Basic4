@@ -38,12 +38,10 @@ public abstract class ControlCallBack {
         tmpFile = new File(targetFile.getAbsolutePath() + ".tmp");
     }
 
-    public void onSuccess(DownloadTaskState state, String url) {
-        this.state = DownloadTaskState.DONE;
+    public void onSuccess(String url) {
     }
 
-    public void onError(DownloadTaskState state, String url, Throwable e) {
-        this.state = DownloadTaskState.ERROR;
+    public void onError(String url, Throwable e) {
     }
 
     public abstract void onCancel(String url);
@@ -93,27 +91,32 @@ public abstract class ControlCallBack {
                     }
                 }
                 time = System.currentTimeMillis();
-
-            }
-            if (!isCancel) {
-                fos.flush();
+                if (isCancel) {
+                    is.close();
+                    break;
+                }
             }
             if (isCancel) {
                 onCancel(url);
             } else {
+                fos.flush();
                 boolean rename = tmpFile.renameTo(targetFile);
                 if (rename) {
-                    onSuccess(state, url);
+                    setState(DownloadTaskState.DONE);
+                    onSuccess(url);
                 } else {
-                    onError(state, url, new Exception("Rename file fail. " + tmpFile));
+                    setState(DownloadTaskState.ERROR);
+                    onError(url, new Exception("Rename file fail. " + tmpFile));
                 }
             }
         } catch (FileNotFoundException e) {
             Log.e(TAG, "saveFile: FileNotFoundException ", e);
-            onError(state, url, e);
+            setState(DownloadTaskState.ERROR);
+            onError(url, e);
         } catch (Exception e) {
             Log.e(TAG, "saveFile: IOException ", e);
-            onError(state, url, e);
+            setState(DownloadTaskState.ERROR);
+            onError(url, e);
         } finally {
             try {
                 if (is != null) {
@@ -130,6 +133,7 @@ public abstract class ControlCallBack {
 
     public void cancel() {
         isCancel = true;
+//        onCancel(url);
     }
 
     public File getTargetFile() {

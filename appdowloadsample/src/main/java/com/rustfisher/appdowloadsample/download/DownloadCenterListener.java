@@ -10,10 +10,10 @@ public abstract class DownloadCenterListener {
 
     }
 
-    public void onSuccess(DownloadTaskState state, String url) {
+    public void onSuccess(String url) {
     }
 
-    public void onError(DownloadTaskState state, String url, Throwable e) {
+    public void onError(String url, Throwable e) {
     }
 
     public void onDeleted(String url) {

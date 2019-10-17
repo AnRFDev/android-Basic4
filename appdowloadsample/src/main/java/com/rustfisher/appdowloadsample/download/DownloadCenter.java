@@ -62,23 +62,30 @@ public class DownloadCenter {
         if (callBack == null) {
             callBack = new ControlCallBack(downUrl, targetFile, downloadBytePerMs) {
                 @Override
-                public void onSuccess(DownloadTaskState state, String url) {
-                    tellDownloadSuccess(state, url);
+                public void onSuccess(String url) {
+                    tellDownloadSuccess(url);
                 }
 
                 @Override
-                public void onError(DownloadTaskState state, String url, Throwable e) {
-                    tellDownloadError(state, url, e);
+                public void onError(String url, Throwable e) {
+                    tellDownloadError(url, e);
                 }
 
                 @Override
                 public void onCancel(String url) {
+                    for (ControlCallBack c : callBackList) {
+                        if (url.equals(c.getUrl())) {
+                            callBackList.remove(c);
+                            break;
+                        }
+                    }
                     tellDownloadDelete(url);
                 }
             };
             callBackList.add(callBack);
         }
         if (callBack.isDownloading()) {
+            Log.d(TAG, "downloading this task.");
             return;
         }
 
@@ -140,15 +147,15 @@ public class DownloadCenter {
         listeners.remove(l);
     }
 
-    private void tellDownloadSuccess(DownloadTaskState state, String url) {
+    private void tellDownloadSuccess(String url) {
         for (DownloadCenterListener l : listeners) {
-            l.onSuccess(state, url);
+            l.onSuccess(url);
         }
     }
 
-    private void tellDownloadError(DownloadTaskState state, String url, Throwable e) {
+    private void tellDownloadError(String url, Throwable e) {
         for (DownloadCenterListener l : listeners) {
-            l.onError(state, url, e);
+            l.onError(url, e);
         }
     }
 
