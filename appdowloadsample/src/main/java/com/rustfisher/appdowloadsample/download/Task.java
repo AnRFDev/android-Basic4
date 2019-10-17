@@ -5,6 +5,7 @@ import java.io.File;
 /**
  * 下载任务
  * Created on 2019-10-16
+ * @deprecated
  */
 public class Task {
     private static int autoCode = 0;

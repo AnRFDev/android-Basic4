@@ -8,12 +8,13 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.rustfisher.appdowloadsample.download.DownloadCenter;
-import com.rustfisher.appdowloadsample.download.ControlCallBack;
+import com.rustfisher.appdowloadsample.download.DownloadCenterListener;
+import com.rustfisher.appdowloadsample.download.DownloadTaskState;
+import com.rustfisher.appdowloadsample.fragment.DownloadingFrag;
 
 import java.io.File;
 
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQ_CODE);
         setOnClick(this, R.id.download_1, R.id.download_2, R.id.download_3);
+        getSupportFragmentManager().beginTransaction().add(R.id.container, new DownloadingFrag()).commit();
     }
 
     @Override
@@ -38,6 +40,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "请允许应用读写外部存储", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -59,28 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void downloadUrl(final String url, File targetFile, final int downloadBytePerMs) {
-        DownloadCenter.getInstance().download(url,
-                new ControlCallBack(url, targetFile) {
-                    @Override
-                    public int downloadBytePerMs() {
-                        return downloadBytePerMs;
-                    }
-
-                    @Override
-                    public void onSuccess() {
-                        Log.d(TAG, "onSuccess: " + url);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "onError: " + url, e);
-                    }
-
-                    @Override
-                    public void onCancel(String url) {
-                        Log.w(TAG, "onCancel: " + url);
-                    }
-                });
+        DownloadCenter.getInstance().download(url, targetFile, downloadBytePerMs);
     }
 
     private void setOnClick(View.OnClickListener l, int... id) {

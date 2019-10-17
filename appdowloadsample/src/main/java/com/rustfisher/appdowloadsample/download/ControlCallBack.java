@@ -3,7 +3,6 @@ package com.rustfisher.appdowloadsample.download;
 import android.util.Log;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,16 +22,29 @@ public abstract class ControlCallBack {
     private File tmpFile;
     public boolean isCancel;
     private String url;
+    private DownloadTaskState state;
+    private int downloadBytesPerMs;
+    private long progressTotal;
+    private long progressCurrent = -1;
 
     public ControlCallBack(String url, File targetFile) {
-        this.url = url;
-        this.targetFile = targetFile;
-        this.tmpFile = new File(targetFile.getAbsolutePath() + ".tmp");
+        this(url, targetFile, defDownloadBytePerMs);
     }
 
-    public abstract void onSuccess();
+    public ControlCallBack(String url, File targetFile, int downloadBytesPerMs) {
+        this.url = url;
+        this.targetFile = targetFile;
+        this.downloadBytesPerMs = downloadBytesPerMs;
+        tmpFile = new File(targetFile.getAbsolutePath() + ".tmp");
+    }
 
-    public abstract void onError(Throwable e);
+    public void onSuccess(DownloadTaskState state, String url) {
+        this.state = DownloadTaskState.DONE;
+    }
+
+    public void onError(DownloadTaskState state, String url, Throwable e) {
+        this.state = DownloadTaskState.ERROR;
+    }
 
     public abstract void onCancel(String url);
 
@@ -41,10 +53,11 @@ public abstract class ControlCallBack {
     }
 
     public int downloadBytePerMs() {
-        return defDownloadBytePerMs;
+        return downloadBytesPerMs;
     }
 
     public void saveFile(ResponseBody body) {
+        state = DownloadTaskState.DOWNLOADING;
         InputStream is = null;
         byte[] buf = new byte[2048];
         int len;
@@ -90,17 +103,17 @@ public abstract class ControlCallBack {
             } else {
                 boolean rename = tmpFile.renameTo(targetFile);
                 if (rename) {
-                    onSuccess();
+                    onSuccess(state, url);
                 } else {
-                    onError(new Exception("Rename file fail. " + tmpFile));
+                    onError(state, url, new Exception("Rename file fail. " + tmpFile));
                 }
             }
         } catch (FileNotFoundException e) {
             Log.e(TAG, "saveFile: FileNotFoundException ", e);
-            onError(e);
+            onError(state, url, e);
         } catch (Exception e) {
             Log.e(TAG, "saveFile: IOException ", e);
-            onError(e);
+            onError(state, url, e);
         } finally {
             try {
                 if (is != null) {
@@ -125,5 +138,43 @@ public abstract class ControlCallBack {
 
     public File getTmpFile() {
         return tmpFile;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public boolean isDownloading() {
+        return DownloadTaskState.DOWNLOADING.equals(state);
+    }
+
+    public void setState(DownloadTaskState state) {
+        this.state = state;
+    }
+
+    public long getProgressTotal() {
+        return progressTotal;
+    }
+
+    public void setProgressTotal(long progressTotal) {
+        this.progressTotal = progressTotal;
+    }
+
+    public long getProgressCurrent() {
+        return progressCurrent;
+    }
+
+    public void setProgressCurrent(long progressCurrent) {
+        this.progressCurrent = progressCurrent;
+    }
+
+    @Override
+    public String toString() {
+        return "ControlCallBack ["
+                + "url: " + url + "\n"
+                + "  state: " + state + ", "
+                + "targetFile: " + targetFile + "\n"
+                + "downloadBytesPerMs: " + downloadBytesPerMs
+                + "]";
     }
 }
