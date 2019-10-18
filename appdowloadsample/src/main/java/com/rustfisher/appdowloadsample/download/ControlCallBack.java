@@ -20,13 +20,13 @@ public abstract class ControlCallBack {
     public static int defDownloadBytePerMs = 100; // 每毫秒下载的字节数
     private File targetFile;
     private File tmpFile;
-    public boolean isCancel;
-    private String url;
+    private final String url;
     private DownloadTaskState state;
     private int downloadBytesPerMs;
     private long progressTotal;
     private long progressCurrent = -1;
-    InputStream srcInputStream;
+    private InputStream srcInputStream;
+    private long localFileStartByteIndex = 0;
 
     public ControlCallBack(String url, File targetFile) {
         this(url, targetFile, defDownloadBytePerMs);
@@ -45,7 +45,11 @@ public abstract class ControlCallBack {
     public void onError(String url, Throwable e) {
     }
 
-    public abstract void onCancel(String url);
+    public void onPaused(String url) {
+
+    }
+
+    public abstract void onDelete(String url);
 
     public void onInfo(String log) {
         Log.d(TAG, log);
@@ -76,9 +80,16 @@ public abstract class ControlCallBack {
                 boolean c = file.createNewFile();
                 onInfo("Create new file " + c);
             }
-            fos = new FileOutputStream(file);
+            Log.d(TAG, "saveFile: localFileStartByteIndex: " + localFileStartByteIndex);
+            if (localFileStartByteIndex > 0) {
+                fos = new FileOutputStream(file, true);
+            } else {
+                fos = new FileOutputStream(file);
+            }
             long time = System.currentTimeMillis();
-            while ((len = srcInputStream.read(buf)) != -1 && !isCancel) {
+            while ((len = srcInputStream.read(buf)) != -1 &&
+                    !isDeletingState() &&
+                    !state.equals(DownloadTaskState.PAUSING)) {
                 fos.write(buf, 0, len);
                 int duration = (int) (System.currentTimeMillis() - time);
 
@@ -91,13 +102,16 @@ public abstract class ControlCallBack {
                     }
                 }
                 time = System.currentTimeMillis();
-                if (isCancel) {
-                    state = DownloadTaskState.CLOSING;
+                if (isDeletingState()) {
+                    state = DownloadTaskState.DELETING;
                     srcInputStream.close();
                     break;
                 }
             }
-            if (!isCancel) {
+            if (state.equals(DownloadTaskState.PAUSING)) {
+                state = DownloadTaskState.PAUSED;
+                onPaused(url);
+            } else if (!isDeletingState()) {
                 fos.flush();
                 boolean rename = tmpFile.renameTo(targetFile);
                 if (rename) {
@@ -127,20 +141,58 @@ public abstract class ControlCallBack {
             } catch (IOException e) {
                 Log.e(TAG, "saveFile", e);
             }
-            if (isCancel) {
-                onCancel(url);
+            if (isDeletingState()) {
+                onDelete(url);
             }
         }
     }
 
-    public void cancel() {
-        state = DownloadTaskState.CLOSING;
-        isCancel = true;
-        try {
-            srcInputStream.close();
-        } catch (Exception e) {
-            Log.e(TAG, "cancel download: ", e);
+    /**
+     * 取消任务
+     * 需要考虑当前状态
+     * (这种状态变换真的是好的设计吗？)
+     */
+    public void delete() {
+        DownloadTaskState old = state;
+        state = DownloadTaskState.DELETING;
+        switch (old) {
+            case CREATED:
+            case DONE:
+            case ERROR:
+            case PAUSED:
+                onDelete(url);
+                break;
+            case DOWNLOADING:
+                break;
+            case DELETING:
+                return;
         }
+        if (srcInputStream != null) {
+            try {
+                srcInputStream.close();
+            } catch (Exception e) {
+                Log.e(TAG, "delete download: ", e);
+            }
+        }
+    }
+
+    public void pause() {
+        switch (state) {
+            case CREATED:
+            case DOWNLOADING:
+                state = DownloadTaskState.PAUSING;
+                break;
+            default:
+                return;
+        }
+    }
+
+    public long getLocalFileStartByteIndex() {
+        return localFileStartByteIndex;
+    }
+
+    public void setLocalFileStartByteIndex(long localFileStartByteIndex) {
+        this.localFileStartByteIndex = localFileStartByteIndex;
     }
 
     public File getTargetFile() {
@@ -157,6 +209,14 @@ public abstract class ControlCallBack {
 
     public boolean isDownloading() {
         return DownloadTaskState.DOWNLOADING.equals(state);
+    }
+
+    public boolean isPaused() {
+        return DownloadTaskState.PAUSED.equals(state);
+    }
+
+    public boolean isDeletingState() {
+        return state.equals(DownloadTaskState.DELETING);
     }
 
     public void setState(DownloadTaskState state) {

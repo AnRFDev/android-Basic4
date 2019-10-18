@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.download_1:
                 final String url1 = "http://dldir1.qq.com/weixin/android/weixin707android1520.apk";
-                downloadUrl(url1, new File(Environment.getExternalStorageDirectory(), "weixin707android1520.apk"), 1000000);
+                downloadUrl(url1, new File(Environment.getExternalStorageDirectory(), "weixin707android1520.apk"), 1003);
                 break;
             case R.id.download_2:
                 final String url2 = "http://releases.ubuntu.com/18.04.3/ubuntu-18.04.3-desktop-amd64.iso?_ga=2.164765245.385568095.1571216179-1901711613.1571216179";

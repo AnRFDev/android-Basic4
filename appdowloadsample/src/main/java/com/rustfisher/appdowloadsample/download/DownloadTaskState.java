@@ -7,8 +7,9 @@ package com.rustfisher.appdowloadsample.download;
 public enum DownloadTaskState {
     CREATED,
     DOWNLOADING,
+    PAUSING,/* todo 还没实现暂停功能 */
     PAUSED, /* todo 还没实现暂停功能 */
     DONE,
     ERROR,
-    CLOSING
+    DELETING
 }

@@ -24,7 +24,9 @@ import com.rustfisher.appdowloadsample.download.DownloadCenter;
 import com.rustfisher.appdowloadsample.download.DownloadCenterListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 下载中 界面
@@ -35,6 +37,7 @@ public class DownloadingFrag extends Fragment {
 
     private TaskAdapter taskAdapter;
     private Handler mHandler = new Handler(Looper.getMainLooper());
+    private Map<String, Long> mProgressUpdateTimeMap = new HashMap<>();
 
     @Nullable
     @Override
@@ -57,7 +60,21 @@ public class DownloadingFrag extends Fragment {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        callBack.cancel(); // 关闭也是要时间的
+                        callBack.delete();
+                    }
+                }).start();
+            }
+
+            @Override
+            public void onStartOrPauseClick(final ControlCallBack callBack) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (callBack.isPaused()) {
+                            DownloadCenter.getInstance().continueDownload(callBack.getUrl(), callBack.getTargetFile(), callBack.downloadBytePerMs());
+                        } else {
+                            callBack.pause();
+                        }
                     }
                 }).start();
             }
@@ -80,6 +97,18 @@ public class DownloadingFrag extends Fragment {
                     taskAdapter.addTask(callBack);
                 }
             });
+        }
+
+        @Override
+        public void onPaused(final String url) {
+            super.onPaused(url);
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    taskAdapter.updatePaused(url);
+                }
+            });
+
         }
 
         @Override
@@ -107,12 +136,25 @@ public class DownloadingFrag extends Fragment {
         @Override
         public void onProgress(final String url, final long bytesRead, final long contentLength, final boolean done) {
             super.onProgress(url, bytesRead, contentLength, done);
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    taskAdapter.updateProgress(url, bytesRead, contentLength, done);
+            if (bytesRead == contentLength) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        taskAdapter.updateProgress(url, bytesRead, contentLength, done);
+                    }
+                });
+            } else {
+                Long last = mProgressUpdateTimeMap.get(url); // 避免频繁更新
+                if (last == null || System.currentTimeMillis() - last > 100) {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            taskAdapter.updateProgress(url, bytesRead, contentLength, done);
+                        }
+                    });
                 }
-            });
+                mProgressUpdateTimeMap.put(url, System.currentTimeMillis());
+            }
         }
 
         @Override
@@ -133,6 +175,7 @@ public class DownloadingFrag extends Fragment {
         public TextView urlTv;
         public TextView filenameTv;
         ImageView delIv;
+        ImageView startOrPauseIv;
         ProgressBar pb;
 
         public VH(@NonNull View itemView) {
@@ -142,6 +185,7 @@ public class DownloadingFrag extends Fragment {
             urlTv = itemView.findViewById(R.id.url_tv);
             pb = itemView.findViewById(R.id.pb);
             delIv = itemView.findViewById(R.id.del_iv);
+            startOrPauseIv = itemView.findViewById(R.id.start_and_pause_iv);
         }
     }
 
@@ -164,7 +208,7 @@ public class DownloadingFrag extends Fragment {
             final ControlCallBack callBack = callBackList.get(position);
             holder.urlTv.setText(callBack.getUrl());
             holder.filenameTv.setText(callBack.getTargetFile().getName());
-            holder.pb.setVisibility(callBack.isDownloading() ? View.VISIBLE : View.INVISIBLE);
+            holder.pb.setVisibility((callBack.isPaused() || callBack.isDownloading()) ? View.VISIBLE : View.INVISIBLE);
             if (callBack.getProgressTotal() > 0 && callBack.getProgressCurrent() >= 0) {
                 double progress = callBack.getProgressCurrent() * 1.0 / callBack.getProgressTotal();
                 holder.pb.setMax(1000);
@@ -172,12 +216,20 @@ public class DownloadingFrag extends Fragment {
             } else {
                 holder.pb.setVisibility(View.INVISIBLE);
             }
+            holder.startOrPauseIv.setImageResource(callBack.isPaused() ? R.drawable.ic_play_circle_outline_24dp : R.drawable.ic_pause_circle_outline_24dp);
             holder.delIv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "TaskAdapter click del iv");
                     if (onItemClick != null) {
                         onItemClick.onDelClick(callBack);
+                    }
+                }
+            });
+            holder.startOrPauseIv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClick != null) {
+                        onItemClick.onStartOrPauseClick(callBack);
                     }
                 }
             });
@@ -193,7 +245,9 @@ public class DownloadingFrag extends Fragment {
         }
 
         public void addTask(ControlCallBack callBack) {
-            callBackList.add(callBack);
+            if (!callBackList.contains(callBack)) {
+                callBackList.add(callBack);
+            }
             notifyDataSetChanged();
         }
 
@@ -202,13 +256,21 @@ public class DownloadingFrag extends Fragment {
             notifyDataSetChanged();
         }
 
+        public void updatePaused(String url) {
+            int index = getTaskIndexByUrl(url);
+            if (index >= 0) {
+                notifyItemChanged(index);
+            }
+        }
+
         public void updateError(String url) {
             ControlCallBack callBack = getTaskByUrl(url);
             if (callBack != null) {
-                if (callBack.isCancel) {
+                if (callBack.isDeletingState()) {
                     callBackList.remove(callBack);
                 } else {
                     Log.d(TAG, "updateError: " + url);
+
                 }
             }
             notifyDataSetChanged();
@@ -219,8 +281,8 @@ public class DownloadingFrag extends Fragment {
             if (index >= 0) {
                 ControlCallBack callBack = callBackList.get(index);
                 if (callBack != null) {
-                    callBack.setProgressCurrent(bytesRead);
-                    callBack.setProgressTotal(contentLength);
+                    callBack.setProgressCurrent(bytesRead + callBack.getLocalFileStartByteIndex());
+                    callBack.setProgressTotal(contentLength + callBack.getLocalFileStartByteIndex());
                 }
                 notifyItemChanged(index);
             }
@@ -254,6 +316,8 @@ public class DownloadingFrag extends Fragment {
 
     public interface OnItemClick {
         void onDelClick(ControlCallBack callBack);
+
+        void onStartOrPauseClick(ControlCallBack callBack);
     }
 
 }

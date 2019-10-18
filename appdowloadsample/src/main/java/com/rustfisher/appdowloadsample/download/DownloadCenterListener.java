@@ -24,4 +24,8 @@ public abstract class DownloadCenterListener {
 
     }
 
+    public void onPaused(String url) {
+
+    }
+
 }

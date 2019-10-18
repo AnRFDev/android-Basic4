@@ -53,6 +53,50 @@ public class DownloadCenter {
         return instance;
     }
 
+    public void continueDownload(final String downUrl, File targetFile, final int downloadBytePerMs) {
+        ControlCallBack callBack = null;
+        for (ControlCallBack c : callBackList) {
+            if (c.getUrl().equals(downUrl)) {
+                callBack = c;
+                break;
+            }
+        }
+        if (callBack == null) {
+            return;
+        }
+        if (!callBack.isPaused()) {
+            return;
+        }
+        Log.d(TAG, "continueDownload: tmpFile: " + callBack.getTmpFile());
+        long startByte = 0;
+        if (callBack.getTmpFile().exists()) {
+            startByte = callBack.getTmpFile().length();
+            Log.d(TAG, "continueDownload: tmp file exists.");
+        }
+        Log.d(TAG, "continueDownload: startByte: " + startByte);
+        callBack.setLocalFileStartByteIndex(startByte);
+        tellDownloadStart(callBack);
+        final ControlCallBack finalCallBack = callBack;
+        retrofit.create(ApiService.class)
+                .downloadPartial(downUrl, "bytes=" + startByte + "-")
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.io())
+                .doOnNext(new Consumer<ResponseBody>() {
+                    @Override
+                    public void accept(ResponseBody responseBody) throws Exception {
+                        finalCallBack.saveFile(responseBody);
+                    }
+                })
+                .doOnError(new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e(TAG, "accept on error: " + downUrl, throwable);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+    }
+
     public void download(final String downUrl, File targetFile, final int downloadBytePerMs) {
         ControlCallBack callBack = null;
         for (ControlCallBack c : callBackList) {
@@ -69,12 +113,17 @@ public class DownloadCenter {
                 }
 
                 @Override
+                public void onPaused(String url) {
+                    tellDownloadPaused(url);
+                }
+
+                @Override
                 public void onError(String url, Throwable e) {
                     tellDownloadError(url, e);
                 }
 
                 @Override
-                public void onCancel(String url) {
+                public void onDelete(String url) {
                     for (ControlCallBack c : callBackList) {
                         if (url.equals(c.getUrl())) {
                             callBackList.remove(c);
@@ -158,7 +207,7 @@ public class DownloadCenter {
 
         @Streaming
         @GET
-        Observable<ResponseBody> downloadPartial(@Url String url, @Header("Content-Range") String range);
+        Observable<ResponseBody> downloadPartial(@Url String url, @Header("Range") String range);
     }
 
     public void addListener(DownloadCenterListener l) {
@@ -172,6 +221,12 @@ public class DownloadCenter {
     private void tellDownloadSuccess(String url) {
         for (DownloadCenterListener l : listeners) {
             l.onSuccess(url);
+        }
+    }
+
+    private void tellDownloadPaused(String url) {
+        for (DownloadCenterListener l : listeners) {
+            l.onPaused(url);
         }
     }
 
