@@ -3,6 +3,7 @@ package com.rustfisher.appdowloadsample.download;
 import android.util.Log;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -53,48 +54,75 @@ public class DownloadCenter {
         return instance;
     }
 
-    public void continueDownload(final String downUrl, File targetFile, final int downloadBytePerMs) {
-        ControlCallBack callBack = null;
-        for (ControlCallBack c : callBackList) {
-            if (c.getUrl().equals(downUrl)) {
-                callBack = c;
+    public void continueDownload(final ControlCallBack callBack) {
+        if (!callBackList.contains(callBack)) {
+            Log.e(TAG, "continueDownload: not found: " + callBack);
+            return;
+        }
+        switch (callBack.getState()) {
+            case CREATED:
+            case PAUSED:
+            case ERROR:
                 break;
-            }
-        }
-        if (callBack == null) {
-            return;
-        }
-        if (!callBack.isPaused()) {
-            return;
+            default:
+                return;
         }
         Log.d(TAG, "continueDownload: tmpFile: " + callBack.getTmpFile());
         long startByte = 0;
         if (callBack.getTmpFile().exists()) {
             startByte = callBack.getTmpFile().length();
             Log.d(TAG, "continueDownload: tmp file exists.");
+        } else {
+            try {
+                boolean c =callBack.getTmpFile().createNewFile();
+                Log.d(TAG, "continueDownload: Create new tmp file: " + c);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e(TAG, "continueDownload: Create new tmp file. ", e);
+            }
         }
         Log.d(TAG, "continueDownload: startByte: " + startByte);
         callBack.setLocalFileStartByteIndex(startByte);
         tellDownloadStart(callBack);
-        final ControlCallBack finalCallBack = callBack;
         retrofit.create(ApiService.class)
-                .downloadPartial(downUrl, "bytes=" + startByte + "-")
+                .downloadPartial(callBack.getUrl(), "bytes=" + startByte + "-")
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(Schedulers.io())
                 .doOnNext(new Consumer<ResponseBody>() {
                     @Override
                     public void accept(ResponseBody responseBody) throws Exception {
-                        finalCallBack.saveFile(responseBody);
+                        callBack.saveFile(responseBody);
                     }
                 })
                 .doOnError(new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e(TAG, "accept on error: " + downUrl, throwable);
+                        tellDownloadError(callBack.getUrl(), throwable);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
+                .subscribe(new Observer<ResponseBody>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.setState(DownloadTaskState.ERROR);
+                        tellDownloadError(callBack.getUrl(), e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     public void download(final String downUrl, File targetFile, final int downloadBytePerMs) {
@@ -172,7 +200,8 @@ public class DownloadCenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "Download center retrofit onError: ", e);
+                        finalCallBack.setState(DownloadTaskState.ERROR);
+                        tellDownloadError(downUrl, e);
                     }
 
                     @Override

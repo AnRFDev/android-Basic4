@@ -21,7 +21,7 @@ public abstract class ControlCallBack {
     private File targetFile;
     private File tmpFile;
     private final String url;
-    private DownloadTaskState state;
+    private DownloadTaskState state = DownloadTaskState.CREATED;
     private int downloadBytesPerMs;
     private long progressTotal;
     private long progressCurrent = -1;
@@ -138,7 +138,7 @@ public abstract class ControlCallBack {
                 if (fos != null) {
                     fos.close();
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 Log.e(TAG, "saveFile", e);
             }
             if (isDeletingState()) {
@@ -179,6 +179,9 @@ public abstract class ControlCallBack {
     public void pause() {
         switch (state) {
             case CREATED:
+                state = DownloadTaskState.PAUSING;
+                onPaused(url);
+                break;
             case DOWNLOADING:
                 state = DownloadTaskState.PAUSING;
                 break;
@@ -207,12 +210,20 @@ public abstract class ControlCallBack {
         return url;
     }
 
+    public DownloadTaskState getState() {
+        return state;
+    }
+
     public boolean isDownloading() {
         return DownloadTaskState.DOWNLOADING.equals(state);
     }
 
     public boolean isPaused() {
         return DownloadTaskState.PAUSED.equals(state);
+    }
+
+    public boolean isError() {
+        return DownloadTaskState.ERROR.equals(state);
     }
 
     public boolean isDeletingState() {

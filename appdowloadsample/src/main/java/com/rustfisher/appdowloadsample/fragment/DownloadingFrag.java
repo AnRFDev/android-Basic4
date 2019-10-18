@@ -70,8 +70,8 @@ public class DownloadingFrag extends Fragment {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        if (callBack.isPaused()) {
-                            DownloadCenter.getInstance().continueDownload(callBack.getUrl(), callBack.getTargetFile(), callBack.downloadBytePerMs());
+                        if (callBack.isPaused() || callBack.isError()) {
+                            DownloadCenter.getInstance().continueDownload(callBack);
                         } else {
                             callBack.pause();
                         }
@@ -171,9 +171,10 @@ public class DownloadingFrag extends Fragment {
     };
 
     static class VH extends RecyclerView.ViewHolder {
-        public View root;
-        public TextView urlTv;
-        public TextView filenameTv;
+        View root;
+        TextView urlTv;
+        TextView filenameTv;
+        TextView statusTv;
         ImageView delIv;
         ImageView startOrPauseIv;
         ProgressBar pb;
@@ -186,6 +187,7 @@ public class DownloadingFrag extends Fragment {
             pb = itemView.findViewById(R.id.pb);
             delIv = itemView.findViewById(R.id.del_iv);
             startOrPauseIv = itemView.findViewById(R.id.start_and_pause_iv);
+            statusTv = itemView.findViewById(R.id.status_tv);
         }
     }
 
@@ -206,6 +208,7 @@ public class DownloadingFrag extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull VH holder, int position) {
             final ControlCallBack callBack = callBackList.get(position);
+            holder.statusTv.setText(callBack.getState().toString());
             holder.urlTv.setText(callBack.getUrl());
             holder.filenameTv.setText(callBack.getTargetFile().getName());
             holder.pb.setVisibility((callBack.isPaused() || callBack.isDownloading()) ? View.VISIBLE : View.INVISIBLE);
@@ -217,6 +220,27 @@ public class DownloadingFrag extends Fragment {
                 holder.pb.setVisibility(View.INVISIBLE);
             }
             holder.startOrPauseIv.setImageResource(callBack.isPaused() ? R.drawable.ic_play_circle_outline_24dp : R.drawable.ic_pause_circle_outline_24dp);
+            switch (callBack.getState()) {
+                case CREATED:
+                    break;
+                case DOWNLOADING:
+                    break;
+                case PAUSING:
+                    holder.startOrPauseIv.setVisibility(View.VISIBLE);
+                    break;
+                case PAUSED:
+                    holder.startOrPauseIv.setVisibility(View.VISIBLE);
+                    break;
+                case DONE:
+                    holder.startOrPauseIv.setVisibility(View.INVISIBLE);
+                    break;
+                case ERROR:
+                    holder.startOrPauseIv.setImageResource(R.drawable.ic_play_circle_outline_24dp);
+                    holder.startOrPauseIv.setVisibility(View.VISIBLE);
+                    break;
+                case DELETING:
+                    break;
+            }
             holder.delIv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

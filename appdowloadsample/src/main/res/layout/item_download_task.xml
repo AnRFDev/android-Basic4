@@ -6,15 +6,25 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/status_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:textSize="12sp" />
+
+    <TextView
         android:id="@+id/filename_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="#000"
         android:textSize="12sp" />
 
     <TextView
         android:id="@+id/url_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#000"
         android:textSize="12sp" />
 
     <LinearLayout
