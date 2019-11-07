@@ -83,4 +83,11 @@
         android:layout_height="wrap_content"
         android:text="ping测试" />
 
+    <Button
+        android:id="@+id/go_play_sound_act"
+        style="@style/ButtonStyleMainPage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="播放测试" />
+
 </LinearLayout>

@@ -10,6 +10,7 @@ import android.view.View;
 import com.rustfisher.basic4.activity.AnnotationDemoActivity;
 import com.rustfisher.basic4.activity.EnumActivity;
 import com.rustfisher.basic4.activity.PingAct;
+import com.rustfisher.basic4.activity.PlaySoundAct;
 import com.rustfisher.basic4.activity.ScreenshotActivity;
 import com.rustfisher.basic4.activity.ThroughDemoActivity;
 import com.rustfisher.basic4.activity.ForceNetworkActivity;
@@ -40,7 +41,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 R.id.click_through_btn,
                 R.id.screenshot_btn,
                 R.id.go_enum_btn,
-                R.id.go_ping_act
+                R.id.go_ping_act,
+                R.id.go_play_sound_act
         );
     }
 
@@ -79,6 +81,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.go_ping_act:
                 startActivity(new Intent(this, PingAct.class));
+                break;
+            case R.id.go_play_sound_act:
+                startActivity(new Intent(this, PlaySoundAct.class));
                 break;
         }
     }

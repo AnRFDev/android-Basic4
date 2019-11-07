@@ -37,6 +37,7 @@
         <activity android:name=".activity.ThroughDemoActivity" />
         <activity android:name=".activity.ScreenshotActivity" />
         <activity android:name=".activity.PingAct" />
+        <activity android:name=".activity.PlaySoundAct" />
 
         <service android:name=".service.HowToStopService" />
     </application>
