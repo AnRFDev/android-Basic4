@@ -2,16 +2,25 @@
 
 Android开发基础功能和一些实验性质的代码
 
+[来看我](https://rustfisher.com/categories/Android-note/)
+
 ### 模块说明
 |模块|说明|
 |:---|:---|
 |app |功能默认存放的模块|
 |appNdkGround|NDK相关功能|
+|appdowloadsample|OkHttp Retrofit下载功能|
 
-### 功能列表
-|功能点|说明|
-|:-----|:---|
-|停止Service|stop service的姿势|
-|强制使用移动网络进行网络访问|实验性质|
-|WiFi搜索|调用系统API搜索WiFi热点信息|
 
+[使用URLConnection下载音频文件](https://rustfisher.com/2019/09/23/Android/Android-Media_download_stream_file/)
+
+#### appdowloadsample
+- [x] 限速下载
+- [x] 取消下载
+- [x] 监听下载进度
+- [x] 暂停下载
+- [x] 断点续传，即继续下载
+
+[OkHttp + Retrofit 断点续传](https://rustfisher.com/2019/10/18/Android/Android-OkHttp_Retrofit_download_file_partial/)
+
+[OkHttp + Retrofit 下载文件与进度监听](https://rustfisher.com/2019/10/18/Android/Android-OkHttp_Retrofit_download_file/)
