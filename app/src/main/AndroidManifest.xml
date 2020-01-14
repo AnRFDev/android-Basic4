@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 搜索WiFi获取SSID需要的权限 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <application
         android:allowBackup="true"
@@ -38,6 +39,7 @@
         <activity android:name=".activity.ScreenshotActivity" />
         <activity android:name=".activity.PingAct" />
         <activity android:name=".activity.PlaySoundAct" />
+        <activity android:name=".activity.DeviceBrightnessAct" />
 
         <service android:name=".service.HowToStopService" />
     </application>

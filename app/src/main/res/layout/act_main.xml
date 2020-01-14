@@ -7,87 +7,68 @@
     tools:context=".MainActivity">
 
     <Button
+        android:id="@+id/adjust_brightness_btn"
+        style="@style/ButtonStyleMainPage"
+        android:text="调整亮度" />
+
+    <Button
         android:id="@+id/how_to_stop_service_btn"
         style="@style/ButtonStyleMainPage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="如何停止Service" />
 
     <Button
         android:id="@+id/view_lifecycle_btn"
         style="@style/ButtonStyleMainPage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="View生命周期" />
 
     <Button
         android:id="@+id/intent_size_test_btn"
         style="@style/ButtonStyleMainPage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="Intent size test" />
 
     <Button
         android:id="@+id/handler_test_btn"
         style="@style/ButtonStyleMainPage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="测试Handler" />
 
     <Button
         android:id="@+id/annotation_btn"
         style="@style/ButtonStyleMainPage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="注解方式" />
 
     <Button
         android:id="@+id/force_network_btn"
         style="@style/ButtonStyleMainPage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="强制使用移动网络" />
 
     <Button
         android:id="@+id/wifi_scan_btn"
         style="@style/ButtonStyleMainPage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="搜索WiFi" />
 
     <Button
         android:id="@+id/click_through_btn"
         style="@style/ButtonStyleMainPage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="点击穿透" />
 
     <Button
         android:id="@+id/screenshot_btn"
         style="@style/ButtonStyleMainPage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="截图" />
 
     <Button
         android:id="@+id/go_enum_btn"
         style="@style/ButtonStyleMainPage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="枚举类测试" />
 
     <Button
         android:id="@+id/go_ping_act"
         style="@style/ButtonStyleMainPage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="ping测试" />
 
     <Button
         android:id="@+id/go_play_sound_act"
         style="@style/ButtonStyleMainPage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="播放测试" />
 
 </LinearLayout>

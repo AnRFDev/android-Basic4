@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.rustfisher.basic4.activity.AnnotationDemoActivity;
+import com.rustfisher.basic4.activity.DeviceBrightnessAct;
 import com.rustfisher.basic4.activity.EnumActivity;
 import com.rustfisher.basic4.activity.PingAct;
 import com.rustfisher.basic4.activity.PlaySoundAct;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initUI() {
         setUpOnClickListener(this,
+                R.id.adjust_brightness_btn,
                 R.id.how_to_stop_service_btn,
                 R.id.view_lifecycle_btn,
                 R.id.intent_size_test_btn,
@@ -49,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.adjust_brightness_btn:
+                startActivity(new Intent(this, DeviceBrightnessAct.class));
+                break;
             case R.id.how_to_stop_service_btn:
                 startActivity(new Intent(this, SAct1.class));
                 break;
