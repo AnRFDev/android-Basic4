@@ -13,6 +13,7 @@ import com.rustfisher.basic4.activity.EnumActivity;
 import com.rustfisher.basic4.activity.PingAct;
 import com.rustfisher.basic4.activity.PlaySoundAct;
 import com.rustfisher.basic4.activity.ScreenshotActivity;
+import com.rustfisher.basic4.activity.LongSelectText1Activity;
 import com.rustfisher.basic4.activity.ThroughDemoActivity;
 import com.rustfisher.basic4.activity.ForceNetworkActivity;
 import com.rustfisher.basic4.activity.HandlerDemoActivity;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initUI() {
         setUpOnClickListener(this,
+                R.id.text_view_click_partial_btn,
                 R.id.adjust_brightness_btn,
                 R.id.how_to_stop_service_btn,
                 R.id.view_lifecycle_btn,
@@ -51,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.text_view_click_partial_btn:
+                startActivity(new Intent(this, LongSelectText1Activity.class));
+                break;
             case R.id.adjust_brightness_btn:
                 startActivity(new Intent(this, DeviceBrightnessAct.class));
                 break;
