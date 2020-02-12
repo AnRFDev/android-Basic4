@@ -19,6 +19,7 @@ import com.rustfisher.basic4.activity.HandlerDemoActivity;
 import com.rustfisher.basic4.activity.Hts.SAct1;
 import com.rustfisher.basic4.activity.IntentTestAct;
 import com.rustfisher.basic4.activity.ViewLifecycleAct;
+import com.rustfisher.basic4.inputDemo.EditText1Demo;
 import com.rustfisher.basic4.wifiscan.WiFiScanActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -44,13 +45,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 R.id.screenshot_btn,
                 R.id.go_enum_btn,
                 R.id.go_ping_act,
-                R.id.go_play_sound_act
+                R.id.go_play_sound_act,
+                R.id.edit_text_demo
         );
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.edit_text_demo:
+                startActivity(new Intent(this, EditText1Demo.class));
+                break;
             case R.id.adjust_brightness_btn:
                 startActivity(new Intent(this, DeviceBrightnessAct.class));
                 break;

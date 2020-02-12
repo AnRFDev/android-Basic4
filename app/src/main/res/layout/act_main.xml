@@ -16,6 +16,11 @@
             android:orientation="vertical">
 
             <Button
+                android:id="@+id/edit_text_demo"
+                style="@style/ButtonStyleMainPage"
+                android:text="输入Demo" />
+
+            <Button
                 android:id="@+id/adjust_brightness_btn"
                 style="@style/ButtonStyleMainPage"
                 android:text="调整亮度" />
