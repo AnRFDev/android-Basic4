@@ -41,6 +41,7 @@
         <activity android:name=".activity.PlaySoundAct" />
         <activity android:name=".activity.DeviceBrightnessAct" />
         <activity android:name=".inputDemo.EditText1Demo" />
+        <activity android:name=".activity.TextViewSpanAct" />
 
         <service android:name=".service.HowToStopService" />
     </application>

@@ -14,11 +14,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+            <Button
+                android:id="@+id/span_str"
+                style="@style/ButtonStyleMainPage"
+                android:text="span" />
 
             <Button
                 android:id="@+id/edit_text_demo"
                 style="@style/ButtonStyleMainPage"
-                android:text="输入Demo" />
+                android:text="EditText" />
 
             <Button
                 android:id="@+id/adjust_brightness_btn"

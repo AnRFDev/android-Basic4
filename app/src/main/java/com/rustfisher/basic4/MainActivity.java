@@ -13,6 +13,7 @@ import com.rustfisher.basic4.activity.EnumActivity;
 import com.rustfisher.basic4.activity.PingAct;
 import com.rustfisher.basic4.activity.PlaySoundAct;
 import com.rustfisher.basic4.activity.ScreenshotActivity;
+import com.rustfisher.basic4.activity.TextViewSpanAct;
 import com.rustfisher.basic4.activity.ThroughDemoActivity;
 import com.rustfisher.basic4.activity.ForceNetworkActivity;
 import com.rustfisher.basic4.activity.HandlerDemoActivity;
@@ -46,13 +47,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 R.id.go_enum_btn,
                 R.id.go_ping_act,
                 R.id.go_play_sound_act,
-                R.id.edit_text_demo
+                R.id.edit_text_demo,
+                R.id.span_str
         );
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.span_str:
+                startActivity(new Intent(this, TextViewSpanAct.class));
+                break;
             case R.id.edit_text_demo:
                 startActivity(new Intent(this, EditText1Demo.class));
                 break;
