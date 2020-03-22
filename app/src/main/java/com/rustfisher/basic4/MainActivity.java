@@ -20,6 +20,7 @@ import com.rustfisher.basic4.activity.HandlerDemoActivity;
 import com.rustfisher.basic4.activity.Hts.SAct1;
 import com.rustfisher.basic4.activity.IntentTestAct;
 import com.rustfisher.basic4.activity.ViewLifecycleAct;
+import com.rustfisher.basic4.textselecte.LongClickSelectText2Activity;
 import com.rustfisher.basic4.wifiscan.WiFiScanActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initUI() {
         setUpOnClickListener(this,
+                R.id.text_view_click_partial_2_btn,
                 R.id.text_view_click_partial_btn,
                 R.id.adjust_brightness_btn,
                 R.id.how_to_stop_service_btn,
@@ -53,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.text_view_click_partial_2_btn:
+                startActivity(new Intent(this, LongClickSelectText2Activity.class));
+                break;
             case R.id.text_view_click_partial_btn:
                 startActivity(new Intent(this, LongSelectText1Activity.class));
                 break;

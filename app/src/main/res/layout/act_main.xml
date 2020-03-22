@@ -7,6 +7,11 @@
     tools:context=".MainActivity">
 
     <Button
+        android:id="@+id/text_view_click_partial_2_btn"
+        style="@style/ButtonStyleMainPage"
+        android:text="长文本划词选择2" />
+
+    <Button
         android:id="@+id/text_view_click_partial_btn"
         style="@style/ButtonStyleMainPage"
         android:text="长文本划词选择1" />

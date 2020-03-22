@@ -41,6 +41,7 @@
         <activity android:name=".activity.PlaySoundAct" />
         <activity android:name=".activity.DeviceBrightnessAct" />
         <activity android:name=".activity.LongSelectText1Activity" />
+        <activity android:name=".textselecte.LongClickSelectText2Activity" />
 
         <service android:name=".service.HowToStopService" />
     </application>

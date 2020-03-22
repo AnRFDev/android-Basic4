@@ -34,7 +34,7 @@ public class LongSelectText1Activity extends Activity {
     private static String TAG = "rustApp";
     EditText mEt;
     private TextView mTv;
-    private String mContent = "We live in a busy world, full of distractions. And finding some me time and peace during the chaos of the day isn’t an easy task anymore. But without taking breaks and resting properly we can’t work effectively. In fact, we can’t get anything done, focus or even get closer to our goals.\n" +
+    public static String mContent = "We live in a busy world, full of distractions. And finding some me time and peace during the chaos of the day isn’t an easy task anymore. But without taking breaks and resting properly we can’t work effectively. In fact, we can’t get anything done, focus or even get closer to our goals.\n" +
             "\n" +
             "That’s because being busy and tired all the time prevents us from turning our brains off even when it’s time to relax, we can’t sleep well as a result of that, and become depressed and stressed over time.\n" +
             "\n" +
