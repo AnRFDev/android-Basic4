@@ -16,6 +16,16 @@
             android:orientation="vertical">
 
             <Button
+                android:id="@+id/text_view_click_partial_btn"
+                style="@style/ButtonStyleMainPage"
+                android:text="点击1" />
+
+            <Button
+                android:id="@+id/text_view_click_partial_2_btn"
+                style="@style/ButtonStyleMainPage"
+                android:text="点击2" />
+
+            <Button
                 android:id="@+id/edit_text_demo"
                 style="@style/ButtonStyleMainPage"
                 android:text="输入Demo" />
