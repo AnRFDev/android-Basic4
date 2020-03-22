@@ -6,79 +6,85 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/text_view_click_partial_2_btn"
-        style="@style/ButtonStyleMainPage"
-        android:text="长文本划词选择2" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/text_view_click_partial_btn"
-        style="@style/ButtonStyleMainPage"
-        android:text="长文本划词选择1" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/adjust_brightness_btn"
-        style="@style/ButtonStyleMainPage"
-        android:text="调整亮度" />
+            <Button
+                android:id="@+id/edit_text_demo"
+                style="@style/ButtonStyleMainPage"
+                android:text="输入Demo" />
 
-    <Button
-        android:id="@+id/how_to_stop_service_btn"
-        style="@style/ButtonStyleMainPage"
-        android:text="如何停止Service" />
+            <Button
+                android:id="@+id/adjust_brightness_btn"
+                style="@style/ButtonStyleMainPage"
+                android:text="调整亮度" />
 
-    <Button
-        android:id="@+id/view_lifecycle_btn"
-        style="@style/ButtonStyleMainPage"
-        android:text="View生命周期" />
+            <Button
+                android:id="@+id/how_to_stop_service_btn"
+                style="@style/ButtonStyleMainPage"
+                android:text="如何停止Service" />
 
-    <Button
-        android:id="@+id/intent_size_test_btn"
-        style="@style/ButtonStyleMainPage"
-        android:text="Intent size test" />
+            <Button
+                android:id="@+id/view_lifecycle_btn"
+                style="@style/ButtonStyleMainPage"
+                android:text="View生命周期" />
 
-    <Button
-        android:id="@+id/handler_test_btn"
-        style="@style/ButtonStyleMainPage"
-        android:text="测试Handler" />
+            <Button
+                android:id="@+id/intent_size_test_btn"
+                style="@style/ButtonStyleMainPage"
+                android:text="Intent size test" />
 
-    <Button
-        android:id="@+id/annotation_btn"
-        style="@style/ButtonStyleMainPage"
-        android:text="注解方式" />
+            <Button
+                android:id="@+id/handler_test_btn"
+                style="@style/ButtonStyleMainPage"
+                android:text="测试Handler" />
 
-    <Button
-        android:id="@+id/force_network_btn"
-        style="@style/ButtonStyleMainPage"
-        android:text="强制使用移动网络" />
+            <Button
+                android:id="@+id/annotation_btn"
+                style="@style/ButtonStyleMainPage"
+                android:text="注解方式" />
 
-    <Button
-        android:id="@+id/wifi_scan_btn"
-        style="@style/ButtonStyleMainPage"
-        android:text="搜索WiFi" />
+            <Button
+                android:id="@+id/force_network_btn"
+                style="@style/ButtonStyleMainPage"
+                android:text="强制使用移动网络" />
 
-    <Button
-        android:id="@+id/click_through_btn"
-        style="@style/ButtonStyleMainPage"
-        android:text="点击穿透" />
+            <Button
+                android:id="@+id/wifi_scan_btn"
+                style="@style/ButtonStyleMainPage"
+                android:text="搜索WiFi" />
 
-    <Button
-        android:id="@+id/screenshot_btn"
-        style="@style/ButtonStyleMainPage"
-        android:text="截图" />
+            <Button
+                android:id="@+id/click_through_btn"
+                style="@style/ButtonStyleMainPage"
+                android:text="点击穿透" />
 
-    <Button
-        android:id="@+id/go_enum_btn"
-        style="@style/ButtonStyleMainPage"
-        android:text="枚举类测试" />
+            <Button
+                android:id="@+id/screenshot_btn"
+                style="@style/ButtonStyleMainPage"
+                android:text="截图" />
 
-    <Button
-        android:id="@+id/go_ping_act"
-        style="@style/ButtonStyleMainPage"
-        android:text="ping测试" />
+            <Button
+                android:id="@+id/go_enum_btn"
+                style="@style/ButtonStyleMainPage"
+                android:text="枚举类测试" />
 
-    <Button
-        android:id="@+id/go_play_sound_act"
-        style="@style/ButtonStyleMainPage"
-        android:text="播放测试" />
+            <Button
+                android:id="@+id/go_ping_act"
+                style="@style/ButtonStyleMainPage"
+                android:text="ping测试" />
 
+            <Button
+                android:id="@+id/go_play_sound_act"
+                style="@style/ButtonStyleMainPage"
+                android:text="播放测试" />
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>
