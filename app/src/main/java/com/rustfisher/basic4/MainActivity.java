@@ -21,6 +21,7 @@ import com.rustfisher.basic4.activity.Hts.SAct1;
 import com.rustfisher.basic4.activity.IntentTestAct;
 import com.rustfisher.basic4.activity.ViewLifecycleAct;
 import com.rustfisher.basic4.inputDemo.EditText1Demo;
+import com.rustfisher.basic4.inputDemo.SpannableSbDemo1;
 import com.rustfisher.basic4.wifiscan.WiFiScanActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -48,13 +49,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 R.id.go_ping_act,
                 R.id.go_play_sound_act,
                 R.id.edit_text_demo,
-                R.id.span_str
+                R.id.span_str,
+                R.id.spannable_sb_str
         );
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.spannable_sb_str:
+                startActivity(new Intent(this, SpannableSbDemo1.class));
+                break;
             case R.id.span_str:
                 startActivity(new Intent(this, TextViewSpanAct.class));
                 break;
