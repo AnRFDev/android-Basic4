@@ -40,10 +40,11 @@
         <activity android:name=".activity.PingAct" />
         <activity android:name=".activity.PlaySoundAct" />
         <activity android:name=".activity.DeviceBrightnessAct" />
+        <activity android:name=".activity.LongSelectText1Activity" />
+        <activity android:name=".textselecte.LongClickSelectText2Activity" />
         <activity android:name=".inputDemo.EditText1Demo" />
         <activity android:name=".activity.TextViewSpanAct" />
         <activity android:name=".inputDemo.SpannableSbDemo1" />
-
         <service android:name=".service.HowToStopService" />
     </application>
 
