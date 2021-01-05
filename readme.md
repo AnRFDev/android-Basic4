@@ -2,7 +2,9 @@
 
 Android开发基础功能和一些实验性质的代码
 
-[来看我](https://rustfisher.com/categories/Android-note/)
+[Android教程](https://an.rustfisher.com)
+
+相关的工程[Tutorial](https://github.com/AnRFDev/Tutorial2020)
 
 ### 模块说明
 |模块|说明|
@@ -12,7 +14,7 @@ Android开发基础功能和一些实验性质的代码
 |appdowloadsample|OkHttp Retrofit下载功能|
 
 
-[使用URLConnection下载音频文件](https://rustfisher.com/2019/09/23/Android/Android-Media_download_stream_file/)
+[使用URLConnection下载音频文件](https://an.rustfisher.com/android/network/Media_download_stream_file/)
 
 #### appdowloadsample
 - [x] 限速下载
@@ -21,6 +23,6 @@ Android开发基础功能和一些实验性质的代码
 - [x] 暂停下载
 - [x] 断点续传，即继续下载
 
-[OkHttp + Retrofit 断点续传](https://rustfisher.com/2019/10/18/Android/Android-OkHttp_Retrofit_download_file_partial/)
+[OkHttp + Retrofit 断点续传](https://an.rustfisher.com/android/network/okhttp/OkHttp_Retrofit_download_file_partial/)
 
-[OkHttp + Retrofit 下载文件与进度监听](https://rustfisher.com/2019/10/18/Android/Android-OkHttp_Retrofit_download_file/)
+[OkHttp + Retrofit 下载文件与进度监听](https://an.rustfisher.com/android/network/okhttp/OkHttp_Retrofit_download_file/)
